@@ -26,6 +26,7 @@
                                         ,"nova"
                                         ,"optimism"
                                         ,"ronin"
+                                        ,"plume"
                                         ,"polygon"
                                         ,"scroll"
                                         ,"sei"
@@ -45,9 +46,26 @@
                                     ]\',
                                     "sector",
                                     "tokens",
-                                    \'["bh2smith","0xManny","hildobby","soispoke","dot2dotseurat","mtitus6","wuligy","lgingerich","0xRob","jeff-dude","viniabussafi","IrishLatte19","angus_1","Henrystats","rantum", "IrishLatte19"]\') }}'
+                                    \'["bh2smith","0xManny","hildobby","soispoke","dot2dotseurat","mtitus6","wuligy","lgingerich","0xRob","jeff-dude","viniabussafi","IrishLatte19","angus_1","Henrystats","rantum", "IrishLatte19", "captncrunch"]\') }}'
     )
 }}
 
 
-select * from {{ref('tokens_v1_erc20')}}
+select 
+    blockchain
+    ,contract_address
+    ,symbol
+    ,name
+    ,decimals   
+from {{source('tokens_v2', 'erc20')}}
+union all
+select 
+    blockchain
+    ,contract_address
+    ,symbol
+    ,symbol as name
+    ,decimals
+from (
+    select * from {{ref('tokens_v1_erc20')}}
+    where blockchain not in (select distinct blockchain from {{source('tokens_v2', 'erc20')}})
+)
