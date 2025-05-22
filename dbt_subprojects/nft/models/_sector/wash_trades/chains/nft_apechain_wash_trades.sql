@@ -13,5 +13,5 @@
 
 {{nft_wash_trades(
     blockchain='apechain',
-    first_funded_by= source('addresses_events_apechain', 'first_funded_by')
+    first_funded_by = source('addresses_events_apechain', 'first_funded_by')
 )}}

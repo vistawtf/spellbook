@@ -76,6 +76,7 @@ sources:
       - name: first_funded_by
   - name: addresses_events_apechain
     tables:
+      - name: first_activity
       - name: first_funded_by
   - name: bridge_optimism
     tables:
